@@ -1,14 +1,12 @@
 import { CacheModuleAsyncOptions } from "@nestjs/cache-manager";
+import { ConfigService } from "@nestjs/config";
 import { redisStore } from "cache-manager-redis-store";
 
 export const RedisConfig: CacheModuleAsyncOptions = {
   isGlobal: true,
-  useFactory: async () => {
+  useFactory: async (configService: ConfigService) => {
     const store = await redisStore({
-      socket: {
-        host: 'localhost',
-        port: 6379,
-      },
+      url: configService.get('REDIS_URL'),
     });
     return {
       store: () => store,
