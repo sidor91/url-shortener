@@ -10,3 +10,5 @@ export class CreateUrlDto {
   @IsNumber()
   click_count: number;
 }
+
+export type FindUrlDto = Partial<CreateUrlDto> 
