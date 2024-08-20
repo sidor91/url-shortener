@@ -30,11 +30,11 @@ export class UrlService {
     return crypto.randomBytes(3).toString('hex');
   }
 
-  async getShortenUrl(dto: ShortenDto): Promise<string> {
+  async getShortenUrl(dto: ShortenDto): Promise<Record<string, string>> {
     const short_url = await this.generateShortUrl();
 
     await this.save({ short_url, long_url: dto.long_url, click_count: 0 });
-    return `${this.BASE_URL}:${this.PORT}/${short_url}`;
+    return {short_url: `${this.BASE_URL}:${this.PORT}/${short_url}`};
   }
 
   async redirect(short_url: string): Promise<string> {
@@ -45,7 +45,7 @@ export class UrlService {
       return cachedUrl;
     }
 
-    const url = await this.mongoService.findOne(short_url);
+    const url = await this.mongoService.findOne({ short_url });
 
     if (!url) {
       throw new NotFoundException('URL not found');
@@ -57,11 +57,17 @@ export class UrlService {
     return url.long_url;
   }
 
-  async getStats(short_url: string): Promise<any> {
-    const url = await this.mongoService.findOne(short_url);
-    if (!url) {
+  async getStats(url: string): Promise<any> {
+    const item = await this.mongoService.findOne({ short_url: url });
+    if (!item) {
       throw new NotFoundException('URL not found');
     }
-    return url;
+    const { short_url, long_url, click_count } = item;
+
+    return {
+      short_url: `${this.BASE_URL}:${this.PORT}/${short_url}`,
+      long_url,
+      click_count,
+    };
   }
 }

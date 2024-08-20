@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Url } from './schemas/Url.schema';
 import { Model } from 'mongoose';
-import { CreateUrlDto } from 'src/mongo/dto/create-url.dto';
+import { CreateUrlDto, FindUrlDto } from 'src/mongo/dto/create-url.dto';
 
 @Injectable()
 export class MongoService {
@@ -13,7 +13,7 @@ export class MongoService {
     return createdRecord.save();
   }
 
-  async findOne(short_url: string): Promise<Url> {
+  async findOne({ short_url }: FindUrlDto): Promise<Url> {
     return this.urlModel.findOne({ short_url }).exec();
   }
 
