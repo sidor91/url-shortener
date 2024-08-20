@@ -34,7 +34,7 @@ export class UrlService {
     const short_url = await this.generateShortUrl();
 
     await this.save({ short_url, long_url: dto.long_url, click_count: 0 });
-    return {short_url: `${this.BASE_URL}:${this.PORT}/${short_url}`};
+    return { short_url: `${this.BASE_URL}:${this.PORT}/${short_url}` };
   }
 
   async redirect(short_url: string): Promise<string> {

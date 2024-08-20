@@ -1,15 +1,14 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Res } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { ShortenDto, ShortenResponseDto } from './dto/shorten.dto';
 import { Response } from 'express';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('URL Shortener Service')
 @Controller()

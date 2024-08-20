@@ -11,4 +11,4 @@ export class CreateUrlDto {
   click_count: number;
 }
 
-export type FindUrlDto = Partial<CreateUrlDto> 
+export type FindUrlDto = Partial<CreateUrlDto>;
