@@ -14,10 +14,10 @@ export class UrlService {
   constructor(
     private readonly redisService: RedisService,
     private readonly mongoService: MongoService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {
     this.BASE_URL = this.configService.get('BASE_URL');
-    this.PORT = this.configService.get('PORT')
+    this.PORT = this.configService.get('PORT');
   }
 
   async save(dto: CreateUrlDto): Promise<void> {
