@@ -9,7 +9,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UrlService {
   BASE_URL: string;
-  PORT: string;
 
   constructor(
     private readonly redisService: RedisService,
@@ -17,7 +16,6 @@ export class UrlService {
     private readonly configService: ConfigService,
   ) {
     this.BASE_URL = this.configService.get('BASE_URL');
-    this.PORT = this.configService.get('PORT');
   }
 
   async save(dto: CreateUrlDto): Promise<void> {
@@ -34,7 +32,7 @@ export class UrlService {
     const short_url = await this.generateShortUrl();
 
     await this.save({ short_url, long_url: dto.long_url, click_count: 0 });
-    return { short_url: `${this.BASE_URL}:${this.PORT}/${short_url}` };
+    return { short_url: `${this.BASE_URL}/${short_url}` };
   }
 
   async redirect(short_url: string): Promise<string> {
@@ -65,7 +63,7 @@ export class UrlService {
     const { short_url, long_url, click_count } = item;
 
     return {
-      short_url: `${this.BASE_URL}:${this.PORT}/${short_url}`,
+      short_url: `${this.BASE_URL}/${short_url}`,
       long_url,
       click_count,
     };
