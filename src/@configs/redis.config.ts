@@ -1,19 +1,17 @@
 import { CacheModuleAsyncOptions } from "@nestjs/cache-manager";
-import { ConfigService } from "@nestjs/config";
 import { redisStore } from "cache-manager-redis-store";
 
 export const RedisConfig: CacheModuleAsyncOptions = {
   isGlobal: true,
-  useFactory: async (configService: ConfigService) => {
+  useFactory: async () => {
     const store = await redisStore({
       socket: {
-        host: configService.get<string>('REDIS_HOST'),
-        port: parseInt(configService.get<string>('REDIS_PORT')!),
+        host: 'localhost',
+        port: 6379,
       },
     });
     return {
       store: () => store,
     };
   },
-  inject: [ConfigService],
 };
