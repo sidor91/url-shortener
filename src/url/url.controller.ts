@@ -29,7 +29,7 @@ export class UrlController {
 
   @Get('/:code')
   @ApiOperation({ summary: 'Redirect to the original URL' })
-  @ApiParam({ name: 'code', description: 'Short URL code' })
+  @ApiParam({ name: 'code', description: 'Shortened URL' })
   @ApiResponse({ status: 302, description: 'Redirection to original URL' })
   @ApiResponse({ status: 404, description: 'Short URL not found' })
   async redirect(@Param('code') code: string, @Res() res: Response) {
