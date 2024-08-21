@@ -8,9 +8,6 @@ import { NotFoundException } from '@nestjs/common';
 
 describe('UrlService', () => {
   let service: UrlService;
-  let redisService: RedisService;
-  let mongoService: MongoService;
-  let configService: ConfigService;
 
   const mockRedisService = {
     get: jest.fn(),
@@ -26,7 +23,7 @@ describe('UrlService', () => {
   const mockConfigService = {
     get: jest.fn().mockImplementation((key: string) => {
       const config = {
-        BASE_URL: 'http://localhost',
+        BASE_URL: 'http://localhost:4000',
         PORT: '3000',
       };
       return config[key];
@@ -44,9 +41,6 @@ describe('UrlService', () => {
     }).compile();
 
     service = module.get<UrlService>(UrlService);
-    redisService = module.get<RedisService>(RedisService);
-    mongoService = module.get<MongoService>(MongoService);
-    configService = module.get<ConfigService>(ConfigService);
   });
 
   describe('generateShortUrl', () => {
@@ -69,7 +63,7 @@ describe('UrlService', () => {
       const dto = { long_url: 'https://example.com' };
       const result = await service.getShortenUrl(dto as any);
 
-      expect(result).toEqual({ short_url: 'http://localhost:3000/abcdef' });
+      expect(result).toEqual({ short_url: 'http://localhost:4000/abcdef' });
       expect(mockRedisService.set).toHaveBeenCalledWith('abcdef', dto.long_url);
       expect(mockMongoService.create).toHaveBeenCalledWith({
         short_url: 'abcdef',
@@ -132,7 +126,7 @@ describe('UrlService', () => {
 
       const stats = await service.getStats('abcdef');
       expect(stats).toEqual({
-        short_url: 'http://localhost:3000/abcdef',
+        short_url: 'http://localhost:4000/abcdef',
         long_url: 'https://example.com',
         click_count: 5,
       });
