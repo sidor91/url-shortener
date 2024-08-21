@@ -8,17 +8,14 @@ import { MongoModule } from './mongo/mongo.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RedisModule } from './redis/redis.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CacheModule } from '@nestjs/cache-manager';
 import { UrlModule } from './url/url.module';
 
-import { RedisConfig } from './@configs/redis.config';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_DB_ATLAS_URL),
-    CacheModule.register(RedisConfig),
     ThrottlerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -28,7 +25,9 @@ import { APP_GUARD } from '@nestjs/core';
             ttl: configService.get('THROTTLER_TTL_SECONDS'),
           },
         ],
-        storage: new ThrottlerStorageRedisService(),
+        storage: new ThrottlerStorageRedisService(
+          configService.get('REDIS_URL'),
+        ),
       }),
     }),
     MongoModule,
