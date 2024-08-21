@@ -16,32 +16,26 @@ npm install
 
 Create a .env file in the root of the project and add environment variables specified in .env.example
 
-### 4.	Run Docker Containers
-
-```bach
-docker-compose up
-```
-
-### 5. Run the app in the watch mode:
+### 4. Run the app in the watch mode:
 
 ```bash
 npm run start:dev
 ```
 
-### 5.1 Run the app in production mode:
+### 4.1 Run the app in production mode:
 
 ```bash
 npm run build
-npm run start:prod
+npm run start
 ``` 
 
-### 6. Swagger for REST API:
+### 5. Swagger for REST API:
 
 ```bash
 base_url/docs
 ```
 
-### 7. Run tests:
+### 6. Run tests:
 
 ```bash
 npm run test
